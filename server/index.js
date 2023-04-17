@@ -1,17 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './src/App';
-import reportWebVitals from './src/reportWebVitals';
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import bodyParser from 'body-parser';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+import route from './Router/routes.js';
+// import Connection from './database/db.js';
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+dotenv.config();
+const app = express();
+
+app.use(cors());
+app.use(bodyParser.json({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/', route);
+
+const PORT = 8000;
+// const mongoUsername = process.env.MONGO_USERNAME;
+// const mongoPassword = process.env.MONGO_PASSWORD;
+// const mongoDbName = process.env.MONGO_DB_NAME;
+
+// Connection(mongoUsername, mongoPassword, mongoDbName);
+
+app.listen(PORT, () => console.log('Your server is up and running on PORT: ' + PORT));
+
